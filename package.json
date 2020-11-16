@@ -1,25 +1,25 @@
 {
-  "name": "chat_example",
+  "name": "multi_party_video_conf",
   "version": "1.0.1",
-  "description": "",
-  "main": "server.js",
+  "description": "Sample Web App demonstrates the use of APIs for EnableX platform to develop basic Multi-Party RTC (Real Time Communication) Application",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install",
     "start": "node ./server/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "base-64": "^0.1.0",
+    "body-parser": "^1.19.0",
     "btoa": "^1.1.2",
-    "cryptr": "^3.0.0",
+    "debug": "^4.2.0",
     "express": "^4.16.2",
-    "express-session": "^1.17.1",
-    "http": "^0.0.0",
-    "http-auth": "^3.2.4",
-    "localStorage": "^1.0.3",
     "log4js": "^6.3.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
