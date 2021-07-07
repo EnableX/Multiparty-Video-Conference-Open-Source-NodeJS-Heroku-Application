@@ -26,9 +26,9 @@ Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try o
 
 #### 3.1.1 App Id and App Key 
 
-* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
-* Create your Application
-* Get your App ID and App Key
+* Create a free account on EnableX [https://portal.enablex.io/cpaas/trial-sign-up/]
+* Create your Project
+* Get the App ID and App Key generated against the Project
 * Clone this Repository `git clone https://github.com/EnableX/Multiparty-Video-Conference-Open-Source-NodeJS-Heroku-Application.git --recursive` & follow the steps further 
 
 
@@ -101,8 +101,8 @@ Run `node server.js` inside `server` folder for starting your Server.
 
 #### 3.2.2 Test 
 
-* Open a browser and go to [https://yourdomain.com:4443/](https://yourdomain.com:4443/). The browser should load the App. 
-* Allow access to Camera and Mic as and when prompted to start your first RTC Call through EnableX
+* Open a browser and go to [https://localhost:3000/](https://localhost:3000/). The browser should load the App. 
+* Allow access to Camera and Mic as and when prompted to start your first RTC Call through EnableX.
 
 
 ## 4. Server API
