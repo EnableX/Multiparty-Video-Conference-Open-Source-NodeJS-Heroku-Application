@@ -137,6 +137,15 @@ textarea {
   text-align: center;
   text-transform: capitalize;
 }
+
+#mod_video{
+  height: inherit;
+  width: inherit;
+  min-height: 120px;
+  min-width: 160px;
+  position: relative;
+}
+
 #controls-div {
     display: flex;
     flex-direction: row;
@@ -148,10 +157,10 @@ textarea {
 }
 
 .card-columns .card:first-child{
-    padding: 1rem 2rem;
+    padding: 0rem 0rem;
 }
 .card-columns .card:not(:first-child){
-    padding: 3rem 1rem;
+    padding: 0rem 0rem;
 }
 
 @media screen and (min-width: 1690px) {

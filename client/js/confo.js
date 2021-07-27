@@ -12,6 +12,9 @@
 let localStream = null;
 let username = null;
 let room;
+let midorder = 0;
+let maxorder = 1;
+let minorder = Number.MIN_SAFE_INTEGER;
 const SUPPORT_URL = 'https://enablex.io';
 // Player Options
 const options = {
@@ -64,7 +67,8 @@ const options = {
     },
   },
 };
-
+let pinarray = [];
+let pinorder = {};
 const usersList = [];
 window.onload = function () {
   // EnxRtc.Logger.setLogLevel(4);
@@ -121,6 +125,7 @@ window.onload = function () {
 
   const setLiveStream = function (stream, remote_name, index, clientId) {
     // Listening to Text Data
+    console.log("atlist==================>" + JSON.stringify(remote_name));
     stream.addEventListener('stream-data', (e) => {
       const text = e.msg.textMessage;
       const html = $('.multi_text_container_div').html();
@@ -133,11 +138,35 @@ window.onload = function () {
 
       const newStreamDiv = document.createElement('div');
       newStreamDiv.setAttribute('id', `remotStream_${index}`);
-      newStreamDiv.setAttribute('class', 'live_stream_div remote card');
+      newStreamDiv.setAttribute('class', `live_stream_div remote card client_${clientId}`);
+      var h_img = document.createElement('div');
+      h_img.setAttribute('class', 'h_img');
+      h_img.setAttribute('style', "display:flex ; justify-content: space-between;align-items: center;");
       var nameDiv = document.createElement('h5');
       nameDiv.setAttribute('class', 'card-title');
       nameDiv.innerHTML = remote_name;
-      newStreamDiv.appendChild(nameDiv);
+      h_img.appendChild(nameDiv);
+      // newStreamDiv.appendChild(nameDiv);
+      if (room.me.role === "moderator") {
+        var logoDiv = document.createElement('img');
+        logoDiv.setAttribute('id', `${clientId}`);
+        if (pinarray.indexOf(clientId) > -1) {
+          logoDiv.setAttribute('src', "https://img.icons8.com/material-rounded/24/000000/unpin.png");
+          logoDiv.setAttribute('onclick', "unpin1(this)");
+          let cid = pinorder[`${clientId}`];
+          newStreamDiv.setAttribute('style', `order: ${cid}`);
+        }
+        else {
+          logoDiv.setAttribute('src', "https://img.icons8.com/ios-glyphs/30/000000/pin3--v1.png");
+          logoDiv.setAttribute('onclick', "pin1(this)");
+          let cid = pinorder[`${clientId}`];
+          console.log("not available ========================"+cid);
+          newStreamDiv.setAttribute('style', `order: ${Number.MAX_SAFE_INTEGER}`);
+        }
+        h_img.appendChild(logoDiv);
+        // newStreamDiv.appendChild(logoDiv);
+      }
+      newStreamDiv.appendChild(h_img);
       multi_video_div.appendChild(newStreamDiv);
       options.player.height = 'inherit';
       options.player.width = 'inherit';
@@ -272,13 +301,59 @@ window.onload = function () {
     let list = '';
     room.userList.forEach((user, clientId) => {
       if (clientId !== room.clientId) {
-        list += `<li class="list-group-item" id="user_${clientId}">${user.name}</li>`;
+        if (room.me.role === "moderator") {
+          if (pinarray.indexOf(clientId) > -1) {
+            list += `<li class="list-group-item" id="user_${clientId}" style="display:flex;justify-content: space-between;align-items: center;">${user.name} <img id="c_${clientId}" src="https://img.icons8.com/material-rounded/24/000000/unpin.png"/></li>`;
+          }
+          else {
+            list += `<li class="list-group-item" id="user_${clientId}" style="display:flex;justify-content: space-between;align-items: center;">${user.name} <img id="c_${clientId}" src="https://img.icons8.com/ios-glyphs/30/000000/pin3--v1.png"/></li>`;
+          }
+        }
+        else {
+          list += `<li class="list-group-item" id="user_${clientId}" style="display:flex;justify-content: space-between;align-items: center;">${user.name} </li>`;
+        }
       }
     });
 
     document.querySelector('#users-list-sidebar').innerHTML = list;
   };
 };
+
+
+function pin1(_this) {
+  document.getElementById(_this.id).setAttribute("src", "https://img.icons8.com/material-rounded/24/000000/unpin.png");
+  document.getElementById(`c_${_this.id}`).setAttribute("src", "https://img.icons8.com/material-rounded/24/000000/unpin.png");
+  document.getElementById(_this.id).setAttribute("onclick", "unpin1(this)");
+  pinarray.push(_this.id);
+  room.pinUsers([_this.id], function (resp) {
+    // resp json { "result": Number, "clients": [] }
+    console.log("response of pin=========" + JSON.stringify(resp));
+    document.getElementById('mod_video').setAttribute('style', `order:${minorder};`);
+    document.getElementsByClassName(`client_${_this.id}`)[0].setAttribute('style', `order:${--midorder};height: inherit;
+    width: inherit;`);
+    pinorder[`${_this.id}`] = midorder;
+  })
+}
+
+function unpin1(_this) {
+  document.getElementById(_this.id).setAttribute("src", "https://img.icons8.com/ios-glyphs/30/000000/pin3--v1.png");
+  document.getElementById(`c_${_this.id}`).setAttribute("src", "https://img.icons8.com/ios-glyphs/30/000000/pin3--v1.png");
+  document.getElementById(_this.id).setAttribute("onclick", "pin1(this)");
+  const index = pinarray.indexOf(_this.id);
+  if (index > -1) {
+    pinarray.splice(index, 1);
+  }
+  // delete pinorder[`${_this.id}`];
+  room.unpinUsers([_this.id], function (resp) {
+    // resp json { "result": Number, "clientIds": [] }
+    console.log("unpin response is===========" + JSON.stringify(resp));
+    document.getElementById('mod_video').setAttribute('style', `order:${minorder};`);
+    document.getElementsByClassName(`client_${_this.id}`)[0].setAttribute('style', `order:${maxorder++};height: inherit;
+    width: inherit;`);
+  })
+  delete pinorder[`${_this.id}`];
+}
+
 
 function audioMute() {
   const elem = document.getElementsByClassName('icon-confo-mute')[0];
