@@ -227,7 +227,7 @@ window.onload = function () {
           }
           console.log(`Active Talker List :- ${JSON.stringify(event)}`);
         });
-
+        
         // Stream has been subscribed successfully
         room.addEventListener('stream-subscribed', (streamEvent) => {
           const stream = (streamEvent.data && streamEvent.data.stream) ? streamEvent.data.stream : streamEvent.stream;
@@ -308,10 +308,10 @@ function videoMute() {
   const currentImgPath = elem.src.split('/')[elem.src.split('/').length - 1];
   if (currentImgPath === offImgName) {
     localStream.unmuteVideo((res) => {
-      const streamId = localStream.getID();
-      const player = document.getElementById(`stream${streamId}`);
-      player.srcObject = localStream.stream;
-      player.play();
+      // const streamId = localStream.getID();
+      // const player = document.getElementById(`stream${streamId}`);
+      // player.srcObject = localStream.stream;
+      // player.play();
       elem.src = onImgPath;
       elem.title = 'mute video';
     });
