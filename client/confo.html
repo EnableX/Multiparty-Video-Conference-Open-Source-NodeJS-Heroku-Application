@@ -20,18 +20,19 @@
             </div>
             <div class="col-md-10">
                 <div class="container">
-                    <div class="video_container_div card-columns">
-                        <div class="card">
+                    <div class="video_container_div card-columns" id="all_videos" style="display: inline-flex; flex-direction: row; flex-wrap: wrap;">
+                        <div class="card" id="mod_video">
                             <div id="local_video_div"></div>
+                            <div id="controls-div" style="display: none ;position: relative;left: 17px;bottom: 5px;">
+                                <div class="controls" id="controls">
+                                    <img src="../img/mike.png" style="max-width : 50px;margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-mute" onclick="audioMute()" title="mute audio" />
+                                    <img src="../img/video.png" style="max-width : 50px;margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-video-mute" title="mute video" onclick="videoMute()" />
+                                    <img src="../img/end-call.png" style="max-width : 60px;margin-right: 20px;cursor: pointer;" class="cus_img_icon end_call" title="End_call" onclick="endCall()" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div id="controls-div" style="display: none">
-                        <div class="controls" id="controls">
-                            <img src="../img/mike.png" style="max-width : 50px;margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-mute" onclick="audioMute()" title="mute audio" />
-                            <img src="../img/video.png" style="max-width : 50px;margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-video-mute" title="mute video" onclick="videoMute()" />
-                            <img src="../img/end-call.png" style="max-width : 60px;margin-right: 20px;cursor: pointer;" class="cus_img_icon end_call" title="End_call" onclick="endCall()" />
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
